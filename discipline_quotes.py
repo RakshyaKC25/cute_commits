@@ -1,7 +1,8 @@
 import random
 import datetime
+import argparse
+import os
 
-# List of discipline/motivation quotes by female philosophers or thinkers
 quotes = [
     {
         "quote": "We do not need magic to transform our world. We carry all the power we need inside ourselves already.",
@@ -13,7 +14,7 @@ quotes = [
     },
     {
         "quote": "Discipline is choosing between what you want now and what you want most.",
-        "author": "Augusta Ada King (Ada Lovelace)"
+        "author": "Ada Lovelace"
     },
     {
         "quote": "The most courageous act is still to think for yourself. Aloud.",
@@ -40,3 +41,33 @@ quotes = [
         "author": "Simone de Beauvoir"
     }
 ]
+
+def show_quote():
+    selected = random.choice(quotes)
+    today = datetime.date.today()
+
+    print("\n🌱 Discipline Quote of the Day")
+    print("-" * 40)
+    print(f"\"{selected['quote']}\"")
+    print(f"— {selected['author']}")
+    print(f"📅 {today}\n")
+
+    return selected, today
+
+def log_quote(quote, date):
+    with open("quote_log.txt", "a", encoding="utf-8") as f:
+        f.write(f"{date}: \"{quote['quote']}\" — {quote['author']}\n")
+
+def main():
+    parser = argparse.ArgumentParser(description="Discipline quotes by female philosophers")
+    parser.add_argument("--log", action="store_true", help="Log the quote to quote_log.txt")
+    args = parser.parse_args()
+
+    quote, date = show_quote()
+
+    if args.log:
+        log_quote(quote, date)
+        print("📝 Quote logged to quote_log.txt")
+
+if __name__ == "__main__":
+    main()
